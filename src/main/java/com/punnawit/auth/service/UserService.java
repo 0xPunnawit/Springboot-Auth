@@ -10,14 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final RoleRepository roleRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
@@ -26,6 +25,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // ============ REGISTER ============
     public Users register(RegisterRequest request) {
 
         if (Objects.isNull(request)) {
@@ -55,5 +55,14 @@ public class UserService {
 
     }
 
+
+    // ============ LOGIN ============
+    public Optional<Users> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public boolean matchPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 
 }

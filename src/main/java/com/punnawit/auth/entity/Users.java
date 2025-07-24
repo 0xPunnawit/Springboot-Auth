@@ -2,11 +2,15 @@ package com.punnawit.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
 @Data
+@EqualsAndHashCode(callSuper = false)
+
 public class Users extends BaseEntity implements Serializable {
 
     @Column(length = 100, unique = true, nullable = false)
