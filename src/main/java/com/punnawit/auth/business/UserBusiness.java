@@ -26,9 +26,9 @@ public class UserBusiness {
 
     public RegisterResponse register(RegisterRequest request) {
 
-        Users register = userService.register(request);
+        Users users = userService.register(request);
 
-        return userMapper.toRegisterResponse(register);
+        return userMapper.toRegisterResponse(users);
     }
 
     public String login(LoginRequest request) {
