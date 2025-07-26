@@ -3,10 +3,12 @@ package com.punnawit.auth.business;
 import com.punnawit.auth.Util.JwtUtil;
 import com.punnawit.auth.dto.request.LoginRequest;
 import com.punnawit.auth.dto.request.RegisterRequest;
+import com.punnawit.auth.dto.response.ProfileResponse;
 import com.punnawit.auth.dto.response.RegisterResponse;
 import com.punnawit.auth.entity.Users;
 import com.punnawit.auth.mapper.UserMapper;
 import com.punnawit.auth.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,13 +26,15 @@ public class UserBusiness {
         this.jwtUtil = jwtUtil;
     }
 
+    // ============ REGISTER ============
     public RegisterResponse register(RegisterRequest request) {
 
-        Users users = userService.register(request);
+        Users user = userService.register(request);
 
-        return userMapper.toRegisterResponse(users);
+        return userMapper.toRegisterResponse(user);
     }
 
+    // ============ LOGIN ============
     public String login(LoginRequest request) {
         Optional<Users> byEmail = userService.findByEmail(request.getEmail());
         if (byEmail.isEmpty()) {
@@ -44,5 +48,17 @@ public class UserBusiness {
 
         return jwtUtil.tokenize(users);
     }
+
+    // ============ PROFILE ============
+    public ProfileResponse profile(Authentication authentication) {
+
+        String userId = authentication.getName();
+
+        Users user = userService.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        return userMapper.toProfileResponse(user);
+    }
+
 
 }

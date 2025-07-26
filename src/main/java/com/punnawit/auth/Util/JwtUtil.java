@@ -21,11 +21,14 @@ public class JwtUtil {
     @Value("${JWT_ISSUER}")
     private String jwtIssuer;
 
+    @Value("${JWT_EXPIRATION}")
+    private int jwtExpiration;
+
     public String tokenize(Users user) {
         Algorithm algorithm = algorithm();
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + 3600000);            // 1 hour
+        Date expiryDate = new Date(now.getTime() + jwtExpiration);            // 1 hour
 
         return JWT.create()
                 .withIssuer(jwtIssuer)

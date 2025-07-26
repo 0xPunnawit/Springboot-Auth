@@ -65,4 +65,8 @@ public class UserService {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
+    public Optional<Users> findById(String id) {
+        return userRepository.findById(id);
+    }
+
 }

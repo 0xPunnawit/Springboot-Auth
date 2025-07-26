@@ -23,7 +23,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
         RegisterResponse register = userBusiness.register(request);
-        System.out.println("user: " + register);
         return ResponseEntity.ok(register);
     }
 
