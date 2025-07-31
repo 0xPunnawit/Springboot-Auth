@@ -1,4 +1,4 @@
-package com.punnawit.auth.dto.response;
+package com.punnawit.auth.dto.response.auth;
 
 import lombok.Data;
 

@@ -1,12 +1,10 @@
 package com.punnawit.auth.mapper;
 
 import com.punnawit.auth.dto.response.ProfileResponse;
-import com.punnawit.auth.dto.response.RegisterResponse;
+import com.punnawit.auth.dto.response.auth.RegisterResponse;
 import com.punnawit.auth.entity.Role;
 import com.punnawit.auth.entity.Users;
 import org.mapstruct.Mapper;
-
-import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {

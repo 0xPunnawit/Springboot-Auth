@@ -1,11 +1,13 @@
 package com.punnawit.auth.business;
 
 import com.punnawit.auth.Util.JwtUtil;
-import com.punnawit.auth.dto.request.LoginRequest;
-import com.punnawit.auth.dto.request.RegisterRequest;
+import com.punnawit.auth.dto.request.auth.LoginRequest;
+import com.punnawit.auth.dto.request.auth.RegisterRequest;
 import com.punnawit.auth.dto.response.ProfileResponse;
-import com.punnawit.auth.dto.response.RegisterResponse;
+import com.punnawit.auth.dto.response.auth.RegisterResponse;
 import com.punnawit.auth.entity.Users;
+import com.punnawit.auth.exception.BaseException;
+import com.punnawit.auth.exception.UserException;
 import com.punnawit.auth.mapper.UserMapper;
 import com.punnawit.auth.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -27,7 +29,7 @@ public class UserBusiness {
     }
 
     // ============ REGISTER ============
-    public RegisterResponse register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) throws BaseException {
 
         Users user = userService.register(request);
 

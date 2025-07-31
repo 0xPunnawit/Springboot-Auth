@@ -1,9 +1,11 @@
 package com.punnawit.auth.service;
 
-import com.punnawit.auth.dto.request.RegisterRequest;
+import com.punnawit.auth.dto.request.auth.RegisterRequest;
 import com.punnawit.auth.entity.Role;
 import com.punnawit.auth.entity.Roles;
 import com.punnawit.auth.entity.Users;
+import com.punnawit.auth.exception.BaseException;
+import com.punnawit.auth.exception.UserException;
 import com.punnawit.auth.repository.RoleRepository;
 import com.punnawit.auth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,19 +28,18 @@ public class UserService {
     }
 
     // ============ REGISTER ============
-    public Users register(RegisterRequest request) {
-
-        if (Objects.isNull(request)) {
-            throw new IllegalArgumentException("Request is null");
-        }
+    public Users register(RegisterRequest request) throws BaseException {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw UserException.emailExist();
         }
 
         if (userRepository.existsByPhone(request.getPhone())) {
-            throw new IllegalArgumentException("Phone already exists");
+            throw UserException.phoneExist();
         }
+
+        Role userRole = roleRepository.findByRole(Roles.USER)
+                .orElseThrow(() -> UserException.roleNotFound());
 
         Users user = new Users();
         user.setEmail(request.getEmail());
@@ -46,10 +47,7 @@ public class UserService {
         user.setName(request.getName());
         user.setPhone(request.getPhone());
         user.setAddress(request.getAddress());
-        Role userRole = roleRepository.findByRole(Roles.USER)
-                .orElseThrow(() -> new IllegalArgumentException("Role USER not found"));
         user.setRole(userRole);
-
 
         return userRepository.save(user);
 
