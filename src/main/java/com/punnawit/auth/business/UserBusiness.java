@@ -37,15 +37,15 @@ public class UserBusiness {
     }
 
     // ============ LOGIN ============
-    public String login(LoginRequest request) {
+    public String login(LoginRequest request) throws BaseException {
         Optional<Users> byEmail = userService.findByEmail(request.getEmail());
         if (byEmail.isEmpty()) {
-            throw new IllegalArgumentException("Email not found");
+            throw UserException.notFound();
         }
 
         Users users = byEmail.get();
         if (!userService.matchPassword(request.getPassword(), users.getPassword())) {
-            throw new IllegalArgumentException("Password not match");
+            throw UserException.passwordNotMatch();
         }
 
         return jwtUtil.tokenize(users);

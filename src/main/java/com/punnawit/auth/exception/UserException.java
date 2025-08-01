@@ -17,4 +17,12 @@ public class UserException extends BaseException {
         return new UserException("role.not.found");
     }
 
+    public static UserException notFound() {
+        return new UserException("not.found");
+    }
+
+    public static UserException passwordNotMatch() {
+        return new UserException("password.not.match");
+    }
+
 }

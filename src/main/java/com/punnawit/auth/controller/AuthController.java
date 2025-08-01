@@ -5,6 +5,7 @@ import com.punnawit.auth.dto.request.auth.LoginRequest;
 import com.punnawit.auth.dto.request.auth.RegisterRequest;
 import com.punnawit.auth.dto.response.auth.RegisterResponse;
 import com.punnawit.auth.exception.BaseException;
+import com.punnawit.auth.exception.ValidationHelper;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,14 +25,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request, BindingResult result) throws BaseException {
+    public ResponseEntity<?> register(
+            @Valid @RequestBody RegisterRequest request, BindingResult result
+    ) throws BaseException {
 
-        if (result.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
-            result.getAllErrors().forEach(error -> {
-                errorMessage.append(error.getDefaultMessage()).append(", ");
-            });
-            return ResponseEntity.badRequest().body(errorMessage.toString());
+        ResponseEntity<String> errorResponse = ValidationHelper.handleValidationErrors(result);
+        if (errorResponse != null) {
+            return errorResponse;
         }
 
         RegisterResponse register = userBusiness.register(request);
@@ -39,7 +39,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> login(
+            @Valid@RequestBody LoginRequest request, BindingResult result
+    ) throws BaseException {
+
+        ResponseEntity<String> errorResponse = ValidationHelper.handleValidationErrors(result);
+        if (errorResponse != null) {
+            return errorResponse;
+        }
+
         String token = userBusiness.login(request);
         return ResponseEntity.ok(token);
     }

@@ -53,7 +53,6 @@ public class UserService {
 
     }
 
-
     // ============ LOGIN ============
     public Optional<Users> findByEmail(String email) {
         return userRepository.findByEmail(email);

@@ -11,7 +11,7 @@ public class RegisterRequest {
     private String email;
 
     @NotBlank(message = "Password cannot be null")
-    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @Size(min = 8, max = 100, message = "Password must be at least 8 characters long")
     private String password;
 
     @NotBlank(message = "Name cannot be null")
