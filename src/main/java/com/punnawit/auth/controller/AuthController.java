@@ -4,6 +4,7 @@ import com.punnawit.auth.business.UserBusiness;
 import com.punnawit.auth.dto.request.auth.LoginRequest;
 import com.punnawit.auth.dto.request.auth.RegisterRequest;
 import com.punnawit.auth.dto.response.auth.RegisterResponse;
+import com.punnawit.auth.dto.response.error.ErrorMessageResponse;
 import com.punnawit.auth.exception.BaseException;
 import com.punnawit.auth.exception.ValidationHelper;
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class AuthController {
             @Valid @RequestBody RegisterRequest request, BindingResult result
     ) throws BaseException {
 
-        ResponseEntity<String> errorResponse = ValidationHelper.handleValidationErrors(result);
+        ResponseEntity<ErrorMessageResponse> errorResponse = ValidationHelper.handleValidationErrors(result);
         if (errorResponse != null) {
             return errorResponse;
         }
@@ -39,11 +40,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(
+    public ResponseEntity<?> login(
             @Valid@RequestBody LoginRequest request, BindingResult result
     ) throws BaseException {
 
-        ResponseEntity<String> errorResponse = ValidationHelper.handleValidationErrors(result);
+        ResponseEntity<ErrorMessageResponse> errorResponse = ValidationHelper.handleValidationErrors(result);
         if (errorResponse != null) {
             return errorResponse;
         }

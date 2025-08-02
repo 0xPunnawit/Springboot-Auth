@@ -1,9 +1,9 @@
-package com.punnawit.auth.dto.response;
+package com.punnawit.auth.dto.response.profile;
 
 import lombok.Data;
 
 @Data
-public class ProfileResponse {
+public class UpdateProfileResponse {
 
     private String id;
     private String name;

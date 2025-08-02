@@ -3,8 +3,10 @@ package com.punnawit.auth.business;
 import com.punnawit.auth.Util.JwtUtil;
 import com.punnawit.auth.dto.request.auth.LoginRequest;
 import com.punnawit.auth.dto.request.auth.RegisterRequest;
-import com.punnawit.auth.dto.response.ProfileResponse;
+import com.punnawit.auth.dto.request.profile.UpdateProfileRequest;
 import com.punnawit.auth.dto.response.auth.RegisterResponse;
+import com.punnawit.auth.dto.response.profile.ProfileResponse;
+import com.punnawit.auth.dto.response.profile.UpdateProfileResponse;
 import com.punnawit.auth.entity.Users;
 import com.punnawit.auth.exception.BaseException;
 import com.punnawit.auth.exception.UserException;
@@ -52,15 +54,27 @@ public class UserBusiness {
     }
 
     // ============ PROFILE ============
-    public ProfileResponse profile(Authentication authentication) {
+    public ProfileResponse profile(Authentication authentication) throws BaseException {
 
         String userId = authentication.getName();
 
         Users user = userService.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> UserException.notFound());
 
         return userMapper.toProfileResponse(user);
     }
 
+    public UpdateProfileResponse updateProfile(
+            Authentication authentication,
+            UpdateProfileRequest request
+    ) throws BaseException {
+
+        String userId = authentication.getName();
+
+        Users updateUser = userService.updateProfile(userId, request);
+
+        return userMapper.toUpdateProfileResponse(updateUser);
+
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.punnawit.auth.service;
 
 import com.punnawit.auth.dto.request.auth.RegisterRequest;
+import com.punnawit.auth.dto.request.profile.UpdateProfileRequest;
 import com.punnawit.auth.entity.Role;
 import com.punnawit.auth.entity.Roles;
 import com.punnawit.auth.entity.Users;
@@ -11,7 +12,6 @@ import com.punnawit.auth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -58,6 +58,27 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    // ============ UPDATE PROFILE ============
+    public Users updateProfile(String userId, UpdateProfileRequest request) throws BaseException {
+        Optional<Users> byId = userRepository.findById(userId);
+        
+        if (byId.isEmpty()) {
+            throw UserException.notFound();
+        }
+
+        Users user = byId.get();
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+        user.setAddress(request.getAddress());
+
+        return userRepository.save(user);
+    }
+
+
+
+
+
+    // ****************** START ******************
     public boolean matchPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
@@ -66,4 +87,8 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public void save(Users user) {
+        userRepository.save(user);
+    }
+    // ****************** END ******************
 }
