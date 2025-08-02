@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 
 public class ValidationHelper {
 
+    // Handle validation errors (e.g. @NotBlank, @Size, @Pattern)
     public static ResponseEntity<ErrorMessageResponse> handleValidationErrors(BindingResult result) {
         if (result.hasErrors()) {
             StringBuilder errorMessage = new StringBuilder();
