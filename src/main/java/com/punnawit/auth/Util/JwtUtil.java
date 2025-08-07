@@ -47,7 +47,7 @@ public class JwtUtil {
             return verifier.verify(token);
         } catch (Exception e) {
             log.error("JWT Verification failed: {}", e.getMessage());
-            throw new SecurityException("Invalid or expired token", e);
+            return null;
         }
     }
 

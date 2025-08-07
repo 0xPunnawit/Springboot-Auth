@@ -59,7 +59,7 @@ public class UserBusiness {
         String userId = authentication.getName();
 
         Users user = userService.findById(userId)
-                .orElseThrow(() -> UserException.notFound());
+                .orElseThrow(UserException::notFound);
 
         return userMapper.toProfileResponse(user);
     }
