@@ -22,7 +22,7 @@ public class UserException extends BaseException {
     }
 
     public static UserException passwordNotMatch() {
-        return new UserException("password.not.match");
+        return new UserException("not.found");
     }
 
 }
