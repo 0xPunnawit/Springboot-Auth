@@ -1,4 +1,4 @@
-package com.punnawit.auth.Util;
+package com.punnawit.auth.util;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

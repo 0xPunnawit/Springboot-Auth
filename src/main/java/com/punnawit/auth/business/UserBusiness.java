@@ -1,6 +1,6 @@
 package com.punnawit.auth.business;
 
-import com.punnawit.auth.Util.JwtUtil;
+import com.punnawit.auth.util.JwtUtil;
 import com.punnawit.auth.dto.request.auth.LoginRequest;
 import com.punnawit.auth.dto.request.auth.RegisterRequest;
 import com.punnawit.auth.dto.request.profile.UpdateProfileRequest;
@@ -57,11 +57,16 @@ public class UserBusiness {
     public ProfileResponse profile(Authentication authentication) throws BaseException {
 
         String userId = authentication.getName();
+        if (userId.isEmpty()) {
+            throw UserException.notFound();
+        }
 
-        Users user = userService.findById(userId)
-                .orElseThrow(UserException::notFound);
+        Optional<Users> byId = userService.findById(userId);
+        if (byId.isEmpty()) {
+            throw UserException.notFound();
+        }
 
-        return userMapper.toProfileResponse(user);
+        return userMapper.toProfileResponse(byId.get());
     }
 
     public UpdateProfileResponse updateProfile(
