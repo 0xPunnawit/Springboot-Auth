@@ -45,12 +45,12 @@ public class UserBusiness {
     public String login(LoginRequest request) throws BaseException {
         Optional<Users> byEmail = userService.findByEmail(request.getEmail());
         if (byEmail.isEmpty()) {
-            throw UserException.notFound();
+            throw UserException.loginFailEmailNotFound();
         }
 
         Users users = byEmail.get();
         if (!userService.matchPassword(request.getPassword(), users.getPassword())) {
-            throw UserException.passwordNotMatch();
+            throw UserException.loginFailPasswordIncorrect();
         }
 
         return jwtUtil.tokenize(users);

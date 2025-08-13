@@ -21,8 +21,12 @@ public class UserException extends BaseException {
         return new UserException("not.found");
     }
 
-    public static UserException passwordNotMatch() {
-        return new UserException("not.found");
+    public static UserException loginFailEmailNotFound() {
+        return new UserException("login.failed");
+    }
+
+    public static UserException loginFailPasswordIncorrect() {
+        return new UserException("login.failed");
     }
 
     public static UserException unauthorized() {
