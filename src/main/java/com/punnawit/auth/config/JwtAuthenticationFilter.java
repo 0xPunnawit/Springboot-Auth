@@ -1,6 +1,7 @@
 package com.punnawit.auth.config;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.punnawit.auth.exception.UserException;
 import com.punnawit.auth.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -59,6 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.clearContext();
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);    // if token invalid
                     response.getWriter().write("Invalid or expired token");
+                    throw UserException.unauthorized();
                 }
             } catch (Exception e) {
                 // Handle cases where token verification fails
