@@ -12,6 +12,7 @@ import com.punnawit.auth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -74,10 +75,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-
-
-
-
     // ****************** START ******************
     public boolean matchPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
@@ -90,5 +87,17 @@ public class UserService {
     public void save(Users user) {
         userRepository.save(user);
     }
+
+    // ============ ADMIN ============
+    public List<Users> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void deleteById(String id) {
+        userRepository.deleteById(id);
+    }
+
     // ****************** END ******************
+
+
 }
